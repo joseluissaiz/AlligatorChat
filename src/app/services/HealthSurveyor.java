@@ -32,8 +32,8 @@ public class HealthSurveyor extends Thread {
         }
       }
       //if not responding try to reconnect
-      while (System.currentTimeMillis()-(timeOutMillis*2) < lastPing) {
-        if (System.currentTimeMillis()-(timeOutMillis*2) > lastPing) {
+      while (System.currentTimeMillis()-(timeOutMillis*4) < lastPing) {
+        if (System.currentTimeMillis()-(timeOutMillis*4) > lastPing) {
           connection.getTab().close();
         } else {
           try {
