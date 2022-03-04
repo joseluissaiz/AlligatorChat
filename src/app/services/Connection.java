@@ -48,7 +48,7 @@ public class Connection extends Thread {
         // interrupt //
         String decryptedMessage = cryptoResolver.decrypt(message, key);
         // if message is ping, advise the health surveyor
-        if (decryptedMessage.equals("¿¿¬¬90>>>>>>€€€¨¨||ping||''?@@@<<<<!<_#!poo")) {
+        if (decryptedMessage.equals("||ping||!poo")) {
           healthSurveyor.received();
         } else {
           // When data received, display message

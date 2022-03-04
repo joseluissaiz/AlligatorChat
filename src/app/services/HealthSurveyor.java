@@ -8,7 +8,7 @@ public class HealthSurveyor extends Thread {
   private long lastPing;
   private double latency;
 
-  private final int timeOutMillis = 20000;
+  private final int timeOutMillis = 2000;
 
   public HealthSurveyor(ClientConnector clientConnector, Connection connection) {
     this.clientConnector = clientConnector;
@@ -26,14 +26,13 @@ public class HealthSurveyor extends Thread {
       while (System.currentTimeMillis()-timeOutMillis < lastPing) {
         sendPing();
         try {
-          Thread.sleep(2000);
+          Thread.sleep(500);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
       //if not responding try to reconnect
       while (System.currentTimeMillis()-(timeOutMillis*2) < lastPing) {
-        connection.getTab().writeDebug("Trying to reconnect...");
         if (System.currentTimeMillis()-(timeOutMillis*2) > lastPing) {
           connection.getTab().close();
         } else {
@@ -48,7 +47,7 @@ public class HealthSurveyor extends Thread {
           }
         }
         try {
-          Thread.sleep(2000);
+          Thread.sleep(500);
         } catch (InterruptedException ignored) {
           //Throws exception if the socket is already closed, nothing to worry
           //about.
@@ -64,14 +63,14 @@ public class HealthSurveyor extends Thread {
   }
 
   private void sendPing() {
-    connection.sendMessage("¿¿¬¬90>>>>>>€€€¨¨||ping||''?@@@<<<<!<_#!poo");
+    connection.sendMessage("||ping||!poo");
     if (connection.getTab() != null) {
       connection.getTab().writeDebug(">>> sended");
     }
   }
 
   public void received() {
-    latency = (double) ((System.currentTimeMillis() - lastPing)-2000);
+    latency = (double) ((System.currentTimeMillis() - lastPing)-500);
     lastPing = System.currentTimeMillis();
     if (connection.getTab() != null) {
       connection.getTab().setLatency(latency);
